@@ -31,7 +31,13 @@ export default function Home() {
       signOut();
     } else {
       const data = await response.json();
-      setLists([...data]);
+      console.log(data);
+
+      if (!data) {
+        setLists([]);
+      } else {
+        setLists([...data]);
+      }
     }
   };
 
