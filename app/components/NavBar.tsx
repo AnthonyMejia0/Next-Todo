@@ -33,7 +33,7 @@ function NavBar({ getLists }: NavProps) {
   };
 
   return (
-    <nav className="sticky top-0 flex h-16 w-full items-center justify-between bg-gray-400 px-5 py-3 shadow-md">
+    <nav className="sticky top-0 flex h-16 w-full items-center justify-between bg-gray-200 px-5 py-3 shadow-md">
       <Modal
         handleSubmit={createNewList}
         title="Let's create a new list"
