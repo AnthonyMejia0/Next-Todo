@@ -106,8 +106,7 @@ function ListDisplay({ getLists }: ListProps) {
         )}
       </div>
 
-      {/* list.id */}
-      {false && (
+      {list.id && (
         <div className="h-full w-full xl:grid xl:grid-cols-7">
           <div className="mb-12 xl:col-span-3 xl:mb-0">
             <div className="flex items-center justify-between">
