@@ -26,12 +26,6 @@ export async function GET(request: Request, { params }: { params: Params }) {
     },
   });
 
-  if (lists.length === 0) {
-    return NextResponse.json(null, {
-      status: 404,
-    });
-  }
-
   return NextResponse.json(lists, {
     status: 200,
   });
@@ -100,4 +94,40 @@ export async function PUT(request: Request, { params }: { params: Params }) {
   return NextResponse.json(list, {
     status: 200,
   });
+}
+
+export async function DELETE(request: Request, { params }: { params: Params }) {
+  const accessToken = request.headers.get("authorization");
+  const listId = params.id;
+
+  if (!accessToken || !verifyJwt(accessToken)) {
+    return NextResponse.json(
+      {
+        error: "Unauthorized",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
+  const list = await List.findByPk(listId);
+
+  if (!list) {
+    return NextResponse.json(
+      {
+        error: "List not found",
+      },
+      { status: 404 }
+    );
+  }
+
+  await list.destroy();
+
+  return NextResponse.json(
+    {
+      error: "List deleted successfully",
+    },
+    { status: 200 }
+  );
 }
