@@ -1,14 +1,13 @@
-// import { useRecoilValue, useResetRecoilState } from "recoil";
-// import { listState } from "../atoms/listAtom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
-// import Todo from "./Todo";
 import Modal from "./Modal";
 import DeleteModal from "./DeleteModal";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { listState } from "../atoms/listAtom";
+import { signOut, useSession } from "next-auth/react";
+import Task from "./Task";
 
-interface Todo {
+interface Task {
   id: string;
   title: string;
   completed: boolean;
@@ -22,61 +21,79 @@ interface ListProps {
 
 function ListDisplay({ getLists }: ListProps) {
   const list = useRecoilValue(listState);
-  // const resetList = useResetRecoilState(listState);
-  // const [incompleteTodos, setIncompleteTodos] = useState([] as Todo[]);
-  // const [completeTodos, setCompleteTodos] = useState([] as Todo[]);
+  const resetList = useResetRecoilState(listState);
+  const [incompleteTasks, setIncompleteTasks] = useState([] as Task[]);
+  const [completeTasks, setCompleteTasks] = useState([] as Task[]);
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const { data: session } = useSession();
 
-  const getTodos = async () => {
-    // const response = await fetch(
-    //   `/todos/${list.id}`,
-    //   {
-    //     credentials: "include",
-    //   }
-    // );
-    // const json = await response.json();
-    // const sortedTodos = json.sort(
-    //   (a: Todo, b: Todo) => a.createdAt > b.createdAt
-    // );
-    // setIncompleteTodos(sortedTodos.filter((todo: Todo) => !todo.completed));
-    // setCompleteTodos(sortedTodos.filter((todo: Todo) => todo.completed));
+  const getTasks = async () => {
+    const response = await fetch(`api/tasks/${list.id}`, {
+      headers: {
+        authorization: session!.user.accessToken,
+      },
+    });
+
+    if (response.status === 401) {
+      signOut();
+    }
+
+    const json = await response.json();
+
+    const sortedTasks = json.sort(
+      (a: Task, b: Task) => a.createdAt > b.createdAt
+    );
+
+    setIncompleteTasks(sortedTasks.filter((todo: Task) => !todo.completed));
+    setCompleteTasks(sortedTasks.filter((todo: Task) => todo.completed));
   };
 
-  const createNewTodo = async (newTodo: string) => {
-    // if (newTodo !== "") {
-    //   await fetch(`${import.meta.env.VITE_BASE_URL}/todos/${list.id}`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ title: newTodo }),
-    //     credentials: "include",
-    //   });
-    //   getTodos();
-    // }
+  const createNewTask = async (newTask: string) => {
+    if (newTask !== "") {
+      const response = await fetch(`api/tasks/${list.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: session!.user.accessToken,
+        },
+        body: JSON.stringify({ title: newTask }),
+      });
+
+      if (response.status === 401) {
+        signOut();
+      }
+
+      getTasks();
+    }
   };
 
   const deleteList = async () => {
-    // await fetch(`${import.meta.env.VITE_BASE_URL}/lists/${list.id}`, {
-    //   method: "DELETE",
-    //   credentials: "include",
-    // });
-    // deleteListRef.current.close();
-    // resetList();
-    // getLists();
+    const response = await fetch(`api/lists/${list.id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: session!.user.accessToken,
+      },
+    });
+
+    if (response.status === 401) {
+      signOut();
+    } else {
+      resetList();
+      getLists();
+    }
   };
 
-  // useEffect(() => {
-  //   if (list.id) {
-  //     getTodos();
-  //   }
-  // }, [list]);
+  useEffect(() => {
+    if (list.id) {
+      getTasks();
+    }
+  }, [list]);
 
   return (
-    <div className="overflow-hidden bg-gray-300 px-7 py-10 xl:px-16 xl:py-10">
+    <div className="h-full overflow-hidden bg-gray-300 px-7 py-10 xl:px-16 xl:py-10">
       <Modal
-        handleSubmit={createNewTodo}
+        handleSubmit={createNewTask}
         title="Let's create a task"
         placeHolder="Write a task here"
         initialValue=""
@@ -95,7 +112,7 @@ function ListDisplay({ getLists }: ListProps) {
         <h1 className="text-4xl">
           {!list.title ? "Create a list to get started" : list.title}
         </h1>
-        {/* Todo -- Edit/Delete list */}
+
         {list.title && (
           <button
             onClick={() => setIsDeleteOpen(true)}
@@ -119,21 +136,21 @@ function ListDisplay({ getLists }: ListProps) {
               </button>
             </div>
             <ul className="">
-              {/* {incompleteTodos?.map((todo) => (
-                <li key={todo.id}>
-                  <Todo todo={todo} getTodos={getTodos} />
+              {incompleteTasks?.map((task) => (
+                <li key={task.id}>
+                  <Task task={task} getTasks={getTasks} />
                 </li>
-              ))} */}
+              ))}
             </ul>
           </div>
           <div className="xl:col-span-3 xl:col-start-5">
             <h3 className="pt-1 text-2xl">Done</h3>
             <ul>
-              {/* {completeTodos?.map((todo) => (
-                <li key={todo.id}>
-                  <Todo todo={todo} getTodos={getTodos} />
+              {completeTasks?.map((task) => (
+                <li key={task.id}>
+                  <Task task={task} getTasks={getTasks} />
                 </li>
-              ))} */}
+              ))}
             </ul>
           </div>
         </div>
