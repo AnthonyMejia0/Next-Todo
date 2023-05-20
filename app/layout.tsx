@@ -1,8 +1,11 @@
 import Provider from "./components/Provider";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const noto_sans = Noto_Sans({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: "Next Todo App",
@@ -16,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={noto_sans.className}>
         <Provider>
           <main>{children}</main>
         </Provider>
