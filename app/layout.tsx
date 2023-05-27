@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={noto_sans.className}>
+    <html className="h-screen w-screen" lang="en">
+      <body className={noto_sans.className + " h-full w-full"}>
         <Provider>
           <main>{children}</main>
         </Provider>
