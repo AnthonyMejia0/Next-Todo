@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
 import ListDisplay from "./components/ListDisplay";
 import { RecoilRoot } from "recoil";
+import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from "react-icons/ai";
 
 interface Lists {
   id: string;
@@ -18,9 +19,9 @@ export default function Home() {
   const { data: session } = useSession();
   const user = session?.user;
   const [lists, setLists] = useState([] as Lists[]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const getLists = async () => {
-    console.log(user?.accessToken);
     const response = await fetch(`/api/lists/${user!.id}`, {
       headers: {
         authorization: user!.accessToken,
@@ -31,7 +32,6 @@ export default function Home() {
       signOut();
     } else {
       const data = await response.json();
-      console.log(data);
 
       if (!data) {
         setLists([]);
@@ -39,6 +39,26 @@ export default function Home() {
         setLists([...data]);
       }
     }
+  };
+
+  const openSidebar = () => {
+    let sidebar = document.getElementById("mobileSidebar");
+
+    if (sidebar) {
+      sidebar.classList.toggle("active");
+    }
+
+    setSidebarOpen(true);
+  };
+
+  const closeSidebar = () => {
+    let sidebar = document.getElementById("mobileSidebar");
+
+    if (sidebar) {
+      sidebar.classList.toggle("active");
+    }
+
+    setSidebarOpen(false);
   };
 
   useEffect(() => {
@@ -49,13 +69,49 @@ export default function Home() {
 
   return (
     <RecoilRoot>
-      <main className="">
+      <main>
         <NavBar getLists={getLists} />
-        <div className="flex">
-          <div className="hidden w-48 xl:inline">
+
+        {/* Desktop View */}
+        <div className="hidden xl:flex">
+          <div className="w-48">
             <SideBar lists={lists} getLists={getLists} />
           </div>
           <div className="flex-1">
+            <ListDisplay getLists={getLists} />
+          </div>
+        </div>
+
+        {/* Mobile View */}
+        <div className="relative z-0 xl:hidden">
+          <div className="fixed left-0 top-16">
+            <div className="flex items-start">
+              <div
+                id="mobileSidebar"
+                className="overflow-hidden shadow-md transition-all duration-300 ease-in-out"
+              >
+                <SideBar lists={lists} getLists={getLists} />
+              </div>
+
+              {sidebarOpen ? (
+                <button
+                  onClick={closeSidebar}
+                  className="animate-pulse p-2 duration-150"
+                >
+                  <AiOutlineDoubleLeft size={30} />
+                </button>
+              ) : (
+                <button
+                  onClick={openSidebar}
+                  className="animate-pulse p-2 duration-150"
+                >
+                  <AiOutlineDoubleRight size={30} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="min-h-[calc(100vh-4rem)] bg-gray-300">
             <ListDisplay getLists={getLists} />
           </div>
         </div>
