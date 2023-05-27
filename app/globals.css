@@ -25,3 +25,10 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
+#mobileSidebar {
+  width: 0;
+}
+
+#mobileSidebar.active {
+  width: 12rem;
+}
