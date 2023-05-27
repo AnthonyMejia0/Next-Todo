@@ -76,7 +76,7 @@ function Task({ task, getTasks }: TaskProps) {
   };
 
   return (
-    <div className="my-5 flex w-full items-center justify-between rounded-2xl bg-gray-400 p-5">
+    <div className="my-5 flex w-full items-center justify-between rounded-2xl bg-gray-400 p-5 text-sm xl:text-base">
       <Modal
         handleSubmit={editTask}
         placeHolder="Write new task here"
