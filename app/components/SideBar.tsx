@@ -73,7 +73,7 @@ function SideBar({ lists, getLists }: SideBarProps) {
   }, [lists]);
 
   return (
-    <div className="sticky left-0 top-16 h-[calc(100vh-4rem)] w-full bg-gray-400 text-black shadow-md">
+    <div className="sticky left-0 h-[calc(100vh-4rem)] w-full bg-gray-400 text-black shadow-md xl:top-16">
       <Modal
         handleSubmit={editList}
         title="Let's rename this list"
