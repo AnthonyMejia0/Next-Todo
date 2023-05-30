@@ -28,14 +28,6 @@ class Task extends Model {
   @Default(false)
   @Column(DataType.BOOLEAN)
   public completed!: boolean;
-
-  // @ForeignKey(() => List)
-  // @AllowNull(false)
-  // @Column(DataType.UUID)
-  // public listId!: string;
-
-  // @BelongsTo(() => List)
-  // public list!: List;
 }
 
 export default Task;

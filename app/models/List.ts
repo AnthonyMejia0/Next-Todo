@@ -23,17 +23,6 @@ class List extends Model {
   @AllowNull(false)
   @Column(DataType.STRING)
   public title!: string;
-
-  // @ForeignKey(() => User)
-  // @AllowNull(false)
-  // @Column(DataType.UUID)
-  // public userId!: string;
-
-  // @BelongsTo(() => User)
-  // public user!: User;
-
-  // @HasMany(() => Task)
-  // public tasks!: Task[];
 }
 
 export default List;

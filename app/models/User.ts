@@ -32,9 +32,6 @@ class User extends Model {
   @AllowNull(false)
   @Column(DataType.STRING)
   public hashed_password!: string;
-
-  // @HasMany(() => List)
-  // public lists!: List[];
 }
 
 export default User;
