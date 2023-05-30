@@ -35,8 +35,6 @@ export async function POST(request: Request, { params }: { params: Params }) {
   const accessToken = request.headers.get("authorization");
   const { title } = await request.json();
 
-  console.log(params.id);
-
   if (!accessToken || !verifyJwt(accessToken)) {
     return NextResponse.json(
       {
@@ -62,8 +60,6 @@ export async function PUT(request: Request, { params }: { params: Params }) {
   const accessToken = request.headers.get("authorization");
   const listId = params.id;
   const { title } = await request.json();
-
-  console.log("TITLE =>", title);
 
   if (!accessToken || !verifyJwt(accessToken)) {
     return NextResponse.json(

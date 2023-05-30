@@ -45,8 +45,6 @@ function SideBar({ lists, getLists, sidebarOpen, closeSidebar }: SideBarProps) {
   };
 
   const editList = async (listName: string) => {
-    console.log(currentListId);
-    console.log(listName);
     if (listName !== "") {
       const response = await fetch(`api/lists/${currentListId}`, {
         method: "PUT",
