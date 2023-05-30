@@ -6,6 +6,7 @@ import List from "./List";
 import Task from "./Task";
 
 const sequelize = new Sequelize({
+  host: dbConfig.HOST,
   database: dbConfig.NAME,
   username: dbConfig.USER,
   password: dbConfig.PASSWORD,
