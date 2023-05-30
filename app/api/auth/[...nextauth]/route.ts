@@ -53,6 +53,9 @@ const handler = NextAuth({
       return session;
     },
   },
+  pages: {
+    signIn: `${process.env.BASE_URL}/auth/login`,
+  },
 });
 
 export { handler as GET, handler as POST };
