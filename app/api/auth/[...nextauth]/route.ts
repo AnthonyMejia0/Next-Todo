@@ -14,7 +14,7 @@ const handler = NextAuth({
         },
       },
       async authorize(credentials, req) {
-        const res = await fetch(`${process.env.BASE_URL}/api/login`, {
+        const res = await fetch("/api/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const handler = NextAuth({
     },
   },
   pages: {
-    signIn: `${process.env.BASE_URL}/auth/login`,
+    signIn: "/auth/login",
   },
 });
 
