@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Modal from "./Modal";
 import DeleteModal from "./DeleteModal";
@@ -28,7 +28,7 @@ function ListDisplay({ getLists }: ListProps) {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const { data: session } = useSession();
 
-  const getTasks = async () => {
+  const getTasks = useCallback(async () => {
     const response = await fetch(`api/tasks/${list.id}`, {
       headers: {
         authorization: session!.user.accessToken,
@@ -47,7 +47,7 @@ function ListDisplay({ getLists }: ListProps) {
 
     setIncompleteTasks(sortedTasks.filter((todo: Task) => !todo.completed));
     setCompleteTasks(sortedTasks.filter((todo: Task) => todo.completed));
-  };
+  }, [list, session]);
 
   const createNewTask = async (newTask: string) => {
     if (newTask !== "") {
@@ -88,7 +88,7 @@ function ListDisplay({ getLists }: ListProps) {
     if (list.id) {
       getTasks();
     }
-  }, [list]);
+  }, [list, getTasks]);
 
   return (
     <div className="h-full overflow-hidden bg-gray-300 px-7 py-10 xl:px-16 xl:py-10">

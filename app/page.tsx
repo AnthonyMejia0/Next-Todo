@@ -1,7 +1,7 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import NavBar from "./components/NavBar";
 import SideBar from "./components/SideBar";
 import ListDisplay from "./components/ListDisplay";
@@ -21,7 +21,7 @@ export default function Home() {
   const [lists, setLists] = useState([] as Lists[]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const getLists = async () => {
+  const getLists = useCallback(async () => {
     const response = await fetch(`/api/lists/${user!.id}`, {
       headers: {
         authorization: user!.accessToken,
@@ -39,7 +39,7 @@ export default function Home() {
         setLists([...data]);
       }
     }
-  };
+  }, [user]);
 
   const openSidebar = () => {
     let sidebar = document.getElementById("mobileSidebar");
@@ -65,7 +65,7 @@ export default function Home() {
     if (user) {
       getLists();
     }
-  }, [user]);
+  }, [user, getLists]);
 
   return (
     <RecoilRoot>
