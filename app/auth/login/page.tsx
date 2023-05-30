@@ -67,13 +67,13 @@ function Login() {
         <div className="text-center">
           <p className="mt-2 text-sm text-white md:text-base">
             Don't have an account?
-            <Link
-              className="ml-2 text-sm text-gray-300 hover:text-gray-200"
-              href="/auth/signup"
-            >
-              Sign up.
-            </Link>
           </p>
+          <Link
+            className="ml-2 text-sm text-gray-300 hover:text-gray-200"
+            href="/auth/signup"
+          >
+            Sign up.
+          </Link>
         </div>
       </div>
     </main>
