@@ -75,7 +75,12 @@ export default function Home() {
         {/* Desktop View */}
         <div className="hidden xl:flex">
           <div className="w-48">
-            <SideBar lists={lists} getLists={getLists} />
+            <SideBar
+              lists={lists}
+              getLists={getLists}
+              sidebarOpen={sidebarOpen}
+              closeSidebar={closeSidebar}
+            />
           </div>
           <div className="flex-1">
             <ListDisplay getLists={getLists} />
@@ -90,7 +95,12 @@ export default function Home() {
                 id="mobileSidebar"
                 className="overflow-hidden shadow-md transition-all duration-300 ease-in-out"
               >
-                <SideBar lists={lists} getLists={getLists} />
+                <SideBar
+                  lists={lists}
+                  getLists={getLists}
+                  sidebarOpen={sidebarOpen}
+                  closeSidebar={closeSidebar}
+                />
               </div>
 
               {sidebarOpen ? (

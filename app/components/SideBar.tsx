@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { RiTodoLine } from "react-icons/ri";
 import { AiOutlineEdit } from "react-icons/ai";
 import Modal from "./Modal";
@@ -16,9 +16,11 @@ interface List {
 interface SideBarProps {
   lists: List[];
   getLists: () => Promise<void>;
+  sidebarOpen: boolean;
+  closeSidebar: () => void;
 }
 
-function SideBar({ lists, getLists }: SideBarProps) {
+function SideBar({ lists, getLists, sidebarOpen, closeSidebar }: SideBarProps) {
   const setListInfo = useSetRecoilState(listState);
   const [currentListId, setCurrentListId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +38,10 @@ function SideBar({ lists, getLists }: SideBarProps) {
     };
 
     setListInfo(listInfo);
+
+    if (sidebarOpen) {
+      closeSidebar();
+    }
   };
 
   const editList = async (listName: string) => {
@@ -65,12 +71,6 @@ function SideBar({ lists, getLists }: SideBarProps) {
     setCurrentListId(id);
     setIsOpen(true);
   };
-
-  useEffect(() => {
-    if (lists.length > 0) {
-      setListInfo(lists[0]);
-    }
-  }, [lists]);
 
   return (
     <div className="sticky left-0 h-[calc(100vh-4rem)] w-full bg-gray-400 text-black shadow-md xl:top-16">
