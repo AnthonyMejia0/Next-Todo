@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import Modal from "./Modal";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
+import { useSetRecoilState } from "recoil";
+import { listState } from "../atoms/listAtom";
 
 interface NavProps {
   getLists: () => Promise<void>;
@@ -15,6 +17,7 @@ function NavBar({ getLists }: NavProps) {
   const user = session?.user;
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const setList = useSetRecoilState(listState);
 
   const createNewList = async (value: string) => {
     const response = await fetch(`/api/lists/${user?.id}`, {
@@ -32,6 +35,15 @@ function NavBar({ getLists }: NavProps) {
       signOut();
     } else if (response.ok) {
       getLists();
+
+      const data = await response.json();
+
+      const listInfo = {
+        id: data.id,
+        title: data.title,
+      };
+
+      setList(listInfo);
     }
   };
 
