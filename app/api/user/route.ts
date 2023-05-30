@@ -19,9 +19,14 @@ export async function POST(request: Request) {
   });
 
   if (user) {
-    return NextResponse.json(null, {
-      status: 403,
-    });
+    return NextResponse.json(
+      {
+        error: "User already exists",
+      },
+      {
+        status: 403,
+      }
+    );
   }
 
   const salt = bcrypt.genSaltSync(10);
