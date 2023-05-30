@@ -109,8 +109,8 @@ function ListDisplay({ getLists }: ListProps) {
       />
 
       <div className="mb-10 flex items-baseline space-x-5">
-        <h1 className="text-4xl">
-          {!list.title ? "Create a list to get started" : list.title}
+        <h1 className="text-xl md:text-2xl xl:text-4xl">
+          {!list.title ? "Select a list to get started" : list.title}
         </h1>
 
         {list.title && (
