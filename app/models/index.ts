@@ -5,16 +5,29 @@ import User from "./User";
 import List from "./List";
 import Task from "./Task";
 
-const sequelize = new Sequelize({
-  host: dbConfig.HOST,
-  database: dbConfig.NAME,
-  username: dbConfig.USER,
-  password: dbConfig.PASSWORD,
+let connectionUri = "";
+
+if (process.env.NODE_ENV === "production") {
+  connectionUri = `postgres://${dbConfig.USER}:${dbConfig.PASSWORD}@${dbConfig.HOST}/${dbConfig.NAME}?ssl=true`;
+} else {
+  connectionUri = `postgres://${dbConfig.USER}:${dbConfig.PASSWORD}@${dbConfig.HOST}/${dbConfig.NAME}`;
+}
+
+const sequelize = new Sequelize(connectionUri, {
   dialect: "postgres",
   dialectModule: pg,
-  ssl: true,
   logging: false,
 });
+
+// const sequelize = new Sequelize({
+//   host: dbConfig.HOST,
+//   database: dbConfig.NAME,
+//   username: dbConfig.USER,
+//   password: dbConfig.PASSWORD,
+//   dialect: "postgres",
+//   dialectModule: pg,
+//   logging: false,
+// });
 
 sequelize.addModels([User, List, Task]);
 
@@ -49,6 +62,6 @@ Task.belongsTo(List, {
 export { User, List, Task };
 
 export const initDB = async () => {
-  // await sequelize.authenticate();
+  await sequelize.authenticate();
   await sequelize.sync();
 };
