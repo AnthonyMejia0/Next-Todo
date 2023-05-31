@@ -17,7 +17,7 @@ function Signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setButtonText("Proccessing...");
+    setButtonText("Signing up...");
     setError(null);
 
     try {

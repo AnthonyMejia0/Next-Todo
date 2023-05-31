@@ -9,11 +9,17 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [buttonText, setButtonText] = useState("Login");
+  const [loading, setLoading] = useState(false);
   const { push } = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
+    setButtonText("Logging in...");
+
+    console.log(email, password);
 
     const response = await signIn("credentials", {
       email: email,
@@ -22,7 +28,10 @@ function Login() {
     });
 
     if (response?.error) {
+      console.log(response);
       setError("User not found");
+      setButtonText("Login");
+      setLoading(false);
     } else {
       push("/");
     }
@@ -55,10 +64,11 @@ function Login() {
             required
           />
           <button
+            disabled={loading}
             type="submit"
             className="w-full rounded bg-gray-400 py-1 text-white hover:bg-gray-300 md:py-2"
           >
-            Login
+            {buttonText}
           </button>
         </form>
 
