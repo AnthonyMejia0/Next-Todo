@@ -12,6 +12,7 @@ const sequelize = new Sequelize({
   password: dbConfig.PASSWORD,
   dialect: "postgres",
   dialectModule: pg,
+  ssl: true,
   logging: false,
 });
 
