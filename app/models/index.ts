@@ -50,5 +50,5 @@ export { User, List, Task };
 
 export const initDB = async () => {
   // await sequelize.authenticate();
-  await sequelize.sync({ force: true });
+  await sequelize.sync();
 };
