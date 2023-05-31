@@ -33,22 +33,22 @@ function Signup() {
         }),
       });
 
-      // if (response.ok) {
-      //   const signInResponse = await signIn("credentials", {
-      //     email: email,
-      //     password: password,
-      //     redirect: false,
-      //   });
+      if (response.ok) {
+        const signInResponse = await signIn("credentials", {
+          email: email,
+          password: password,
+          redirect: false,
+        });
 
-      //   if (signInResponse?.error) {
-      //     push("/auth/login");
-      //   } else {
-      //     push("/");
-      //   }
-      // } else {
-      //   const data = await response.json();
-      //   setError(data.error);
-      // }
+        if (signInResponse?.error) {
+          push("/auth/login");
+        } else {
+          push("/");
+        }
+      } else {
+        const data = await response.json();
+        setError(data.error);
+      }
     } catch (error) {
       console.log(error);
       console.log(
