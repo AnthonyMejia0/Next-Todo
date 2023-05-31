@@ -19,18 +19,23 @@ function Login() {
     setLoading(true);
     setButtonText("Logging in...");
 
-    const response = await signIn("credentials", {
-      email: email,
-      password: password,
-      redirect: false,
-    });
+    try {
+      const response = await signIn("credentials", {
+        email: email,
+        password: password,
+        redirect: false,
+      });
 
-    if (response?.error) {
-      setError("User not found");
-      setButtonText("Login");
-      setLoading(false);
-    } else {
-      push("/");
+      if (response?.error) {
+        console.log(error);
+        setError("User not found");
+        setButtonText("Login");
+        setLoading(false);
+      } else {
+        push("/");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
