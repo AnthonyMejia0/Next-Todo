@@ -19,8 +19,6 @@ function Login() {
     setLoading(true);
     setButtonText("Logging in...");
 
-    console.log(email, password);
-
     const response = await signIn("credentials", {
       email: email,
       password: password,
@@ -28,7 +26,6 @@ function Login() {
     });
 
     if (response?.error) {
-      console.log(response);
       setError("User not found");
       setButtonText("Login");
       setLoading(false);
@@ -76,7 +73,7 @@ function Login() {
 
         <div className="text-center">
           <p className="mt-2 text-sm text-white md:text-base">
-            Don`&apos;t have an account?
+            Don&apos;t have an account?
           </p>
           <Link
             className="ml-2 text-sm text-gray-300 hover:text-gray-200"
