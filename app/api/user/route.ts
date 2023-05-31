@@ -10,43 +10,50 @@ interface RequestBody {
 }
 
 export async function POST(request: Request) {
-  const body: RequestBody = await request.json();
+  try {
+    const body: RequestBody = await request.json();
 
-  const user = await User.findOne({
-    where: {
-      email: body.email,
-    },
-  });
-
-  if (user) {
-    return NextResponse.json(
-      {
-        error: "User already exists",
-      },
-      {
-        status: 403,
-      }
-    );
+    console.log(body);
+    return NextResponse.json({}, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }
 
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(body.password, salt);
+  // const user = await User.findOne({
+  //   where: {
+  //     email: body.email,
+  //   },
+  // });
 
-  const newUser = await User.create({
-    name: body.name,
-    email: body.email,
-    hashed_password: hash,
-  });
+  // if (user) {
+  //   return NextResponse.json(
+  //     {
+  //       error: "User already exists",
+  //     },
+  //     {
+  //       status: 403,
+  //     }
+  //   );
+  // }
 
-  const { hashed_password, ...userWithoutPass } = newUser.dataValues;
-  const accessToken = signJwtAccessToken(userWithoutPass);
+  // const salt = bcrypt.genSaltSync(10);
+  // const hash = bcrypt.hashSync(body.password, salt);
 
-  const results = {
-    ...userWithoutPass,
-    accessToken,
-  };
+  // const newUser = await User.create({
+  //   name: body.name,
+  //   email: body.email,
+  //   hashed_password: hash,
+  // });
 
-  return NextResponse.json(results, {
-    status: 200,
-  });
+  // const { hashed_password, ...userWithoutPass } = newUser.dataValues;
+  // const accessToken = signJwtAccessToken(userWithoutPass);
+
+  // const results = {
+  //   ...userWithoutPass,
+  //   accessToken,
+  // };
+
+  // return NextResponse.json(results, {
+  //   status: 200,
+  // });
 }
