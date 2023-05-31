@@ -20,33 +20,38 @@ function Signup() {
     setButtonText("Proccessing...");
     setError(null);
 
-    const response = await fetch("/api/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-    });
-
-    if (response.ok) {
-      const signInResponse = await signIn("credentials", {
-        email: email,
-        password: password,
-        redirect: false,
+    try {
+      const response = await fetch("/api/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
       });
 
-      if (signInResponse?.error) {
-        push("/auth/login");
+      if (response.ok) {
+        const signInResponse = await signIn("credentials", {
+          email: email,
+          password: password,
+          redirect: false,
+        });
+
+        if (signInResponse?.error) {
+          push("/auth/login");
+        } else {
+          push("/");
+        }
       } else {
-        push("/");
+        const data = await response.json();
+        setError(data.error);
       }
-    } else {
-      const data = await response.json();
-      setError(data.error);
+    } catch (error) {
+      console.log(error);
+      setError("Server error. Try again.");
     }
 
     setName("");
