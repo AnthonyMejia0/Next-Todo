@@ -5,13 +5,13 @@ import User from "./User";
 import List from "./List";
 import Task from "./Task";
 
-let connectionUri = "";
+let connectionUri = `postgres://${dbConfig.USER}:${dbConfig.PASSWORD}@${dbConfig.HOST}/${dbConfig.NAME}?ssl=true`;
 
-if (process.env.NODE_ENV === "production") {
-  connectionUri = `postgres://${dbConfig.USER}:${dbConfig.PASSWORD}@${dbConfig.HOST}/${dbConfig.NAME}?ssl=true`;
-} else {
-  connectionUri = `postgres://${dbConfig.USER}:${dbConfig.PASSWORD}@${dbConfig.HOST}/${dbConfig.NAME}`;
-}
+// if (process.env.NODE_ENV === "production") {
+//   connectionUri = `postgres://${dbConfig.USER}:${dbConfig.PASSWORD}@${dbConfig.HOST}/${dbConfig.NAME}?ssl=true`;
+// } else {
+//   connectionUri = `postgres://${dbConfig.USER}:${dbConfig.PASSWORD}@${dbConfig.HOST}/${dbConfig.NAME}`;
+// }
 
 const sequelize = new Sequelize(connectionUri, {
   dialect: "postgres",
