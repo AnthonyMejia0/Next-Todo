@@ -9,11 +9,15 @@ function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [buttonText, setButtonText] = useState("Sign Up");
+  const [loading, setLoading] = useState(false);
   const { push } = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setButtonText("Proccessing...");
     setError(null);
 
     const response = await fetch("/api/user", {
@@ -48,10 +52,15 @@ function Signup() {
     setName("");
     setEmail("");
     setPassword("");
+    setLoading(false);
+    setButtonText("Sign Up");
   };
 
   return (
-    <main className="flex h-screen w-screen items-center justify-center bg-white text-white">
+    <main className="flex h-screen w-screen flex-col items-center justify-center bg-white text-white">
+      <h1 className="pb-5 text-4xl font-bold text-black md:text-5xl">
+        To Do List
+      </h1>
       <div className="w-[85%] rounded-md bg-gray-500 p-7 md:w-auto md:px-12 md:py-7">
         <h2 className="mb-5 text-center text-xl font-bold md:text-3xl">
           Create an Account
@@ -86,14 +95,15 @@ function Signup() {
             required
           />
           <button
+            disabled={loading}
             type="submit"
             className="w-full rounded bg-gray-400 py-1 text-white hover:bg-gray-300 md:py-2"
           >
-            Signup
+            {buttonText}
           </button>
         </form>
 
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="mt-2 text-center text-red-500">{error}</p>}
 
         <div className="text-center">
           <p className="mt-2 text-sm text-white md:text-base">
