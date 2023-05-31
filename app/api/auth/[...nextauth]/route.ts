@@ -14,7 +14,7 @@ const handler = NextAuth({
         },
       },
       async authorize(credentials, req) {
-        let fetchUrl = "/api/login";
+        let fetchUrl = `${process.env.NEXTAUTH_URL}/api/login`;
         // if (process.env.NODE_ENV === "production") {
         //   fetchUrl = "/api/login";
         // } else {
