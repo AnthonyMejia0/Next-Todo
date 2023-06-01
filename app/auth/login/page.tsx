@@ -27,7 +27,6 @@ function Login() {
       });
 
       if (response?.error) {
-        console.log(error);
         setError("User not found");
         setButtonText("Login");
         setLoading(false);
@@ -35,7 +34,7 @@ function Login() {
         push("/");
       }
     } catch (error) {
-      console.log(error);
+      setError("Server error. Try again.");
     }
   };
 
