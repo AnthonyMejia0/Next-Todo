@@ -91,7 +91,7 @@ function ListDisplay({ getLists }: ListProps) {
   }, [list, getTasks]);
 
   return (
-    <div className="h-full overflow-hidden bg-gray-300 px-7 py-14 xl:px-16 xl:py-10">
+    <div className="h-full overflow-hidden bg-gray-300 px-7 py-16 xl:px-16 xl:py-10">
       <Modal
         handleSubmit={createNewTask}
         title="Let's create a task"
@@ -109,7 +109,7 @@ function ListDisplay({ getLists }: ListProps) {
       />
 
       <div className="mb-10 flex items-baseline space-x-5">
-        <h1 className="text-xl md:text-2xl xl:text-4xl">
+        <h1 className="text-xl font-semibold md:text-2xl xl:text-4xl">
           {!list.title ? "Select a list to get started" : list.title}
         </h1>
 
