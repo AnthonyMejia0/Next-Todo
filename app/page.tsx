@@ -106,16 +106,22 @@ export default function Home() {
               {sidebarOpen ? (
                 <button
                   onClick={closeSidebar}
-                  className="animate-pulse p-2 duration-150"
+                  className="bg-gray-400 p-2 shadow-md"
                 >
-                  <AiOutlineDoubleLeft size={30} />
+                  <AiOutlineDoubleLeft
+                    className="animate-pulse duration-150"
+                    size={30}
+                  />
                 </button>
               ) : (
                 <button
                   onClick={openSidebar}
-                  className="animate-pulse p-2 duration-150"
+                  className="bg-gray-400 p-2 shadow-md"
                 >
-                  <AiOutlineDoubleRight size={30} />
+                  <AiOutlineDoubleRight
+                    className="animate-pulse duration-150"
+                    size={30}
+                  />
                 </button>
               )}
             </div>
