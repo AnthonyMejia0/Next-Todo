@@ -50,14 +50,6 @@ function Signup() {
         setError(data.error);
       }
     } catch (error) {
-      console.log(error);
-      console.log(
-        JSON.stringify({
-          name,
-          email,
-          password,
-        })
-      );
       setError("Server error. Try again.");
     }
 
