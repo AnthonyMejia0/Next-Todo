@@ -91,7 +91,7 @@ function ListDisplay({ getLists }: ListProps) {
   }, [list, getTasks]);
 
   return (
-    <div className="h-full overflow-hidden bg-gray-300 px-7 py-10 xl:px-16 xl:py-10">
+    <div className="h-full overflow-hidden bg-gray-300 px-7 py-14 xl:px-16 xl:py-10">
       <Modal
         handleSubmit={createNewTask}
         title="Let's create a task"
