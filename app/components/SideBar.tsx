@@ -83,7 +83,7 @@ function SideBar({ lists, getLists, sidebarOpen, closeSidebar }: SideBarProps) {
 
       <div className="mb-5 flex items-center bg-gray-500 py-5 pl-5 text-white">
         <RiTodoLine size={25} />
-        <h3 className="ml-2 text-2xl">My Lists</h3>
+        <h3 className="ml-2 truncate text-2xl">My Lists</h3>
       </div>
       <ul className="space-y-2 px-2 text-lg">
         {sortedLists?.map((list) => (
@@ -92,7 +92,7 @@ function SideBar({ lists, getLists, sidebarOpen, closeSidebar }: SideBarProps) {
               onClick={() => selectList(list.id, list.title)}
               className="w-full border-b-2 border-b-transparent py-2 text-left hover:border-b-black"
             >
-              <li>{list.title}</li>
+              <li className="truncate">{list.title}</li>
             </button>
             <button
               onClick={() => openEditModal(list.id)}
