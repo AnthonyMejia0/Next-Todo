@@ -87,7 +87,7 @@ function Task({ task, getTasks }: TaskProps) {
       />
 
       <div className="flex items-center space-x-5">
-        <button onClick={toggleCompleted}>
+        <button className="rounded hover:bg-gray-300" onClick={toggleCompleted}>
           {task.completed ? (
             <ImCheckboxChecked size={24} />
           ) : (
